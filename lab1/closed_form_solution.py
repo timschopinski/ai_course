@@ -1,7 +1,8 @@
 import numpy as np
+from numpy import ndarray
 
 
-def get_closed_form_solution(x_data, y_data):
+def get_closed_form_solution(x_data: ndarray, y_data: ndarray) -> tuple[float, float]:
     x_mean = np.mean(x_data)
     y_mean = np.mean(y_data)
     xy_mean = np.mean(x_data * y_data)

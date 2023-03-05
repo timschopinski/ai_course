@@ -2,6 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def get_data():
     url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data'
     column_names = ['MPG', 'Cylinders', 'Displacement', 'Horsepower', 'Weight',
@@ -28,8 +29,8 @@ def inspect_data(dataset):
     print('Statistics:')
     print(dataset.describe().transpose())
 
-    # sns.pairplot(dataset[['MPG', 'Cylinders', 'Displacement', 'Weight']], diag_kind='kde')
-    # plt.show()
+    sns.pairplot(dataset[['MPG', 'Cylinders', 'Displacement', 'Weight']], diag_kind='kde')
+    plt.show()
 
 
 def split_data(dataset):
