@@ -3,6 +3,6 @@
 
 ```bash
 python3 -m venv venv
-source ./venv/bin/activate
+source ./venv/bin/activate (on Windows ./venv/Scripts/activate)
 pip3 install -r requirements.txt
 ```
