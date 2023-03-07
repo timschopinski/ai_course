@@ -4,7 +4,7 @@ from numpy import ndarray
 from data import get_data, inspect_data, split_data
 from lab1.closed_form_solution import get_closed_form_solution
 from lab1.gradient import get_gradient_descent_values
-from lab1.mse import calculate_mean_squared_error
+from lab1.mse import calculate_mse
 
 data = get_data()
 inspect_data(data)
@@ -30,7 +30,7 @@ theta_0, theta_1 = get_closed_form_solution(x_train, y_train)
 
 
 # TODO: calculate error
-mse = calculate_mean_squared_error(theta_0, theta_1, x_test, y_test)
+mse = calculate_mse(theta_0, theta_1, x_test, y_test)
 print(f'MSE: {mse}')
 
 # plot the regression line
@@ -56,7 +56,7 @@ theta_0, theta_1 = get_gradient_descent_values(x_test_std, y_test_std, factor=0.
 
 
 # TODO: calculate error
-mse = calculate_mean_squared_error(theta_0, theta_1, x_test_std, y_test_std)
+mse = calculate_mse(theta_0, theta_1, x_test_std, y_test_std)
 print(f'MSE: {mse}')
 
 # plot the regression line
