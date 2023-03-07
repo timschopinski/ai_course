@@ -1,8 +1,9 @@
-<h3>to install all libraries go to /lab1 and type: </h3>
+<h3>Setting up environment: </h3>
 <br>
 
 ```bash
-python3 -m venv venv
+python -m venv venv
+cd lab1
 source ./venv/bin/activate (on Windows ./venv/Scripts/activate)
 pip3 install -r requirements.txt
 ```
