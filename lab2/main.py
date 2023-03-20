@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from fitness import fitness
 from data import *
 from lab2.crossover import single_point_crossover
+from lab2.mutation import mutate
 from lab2.selection import roulette_wheel_selection
 
 
@@ -27,7 +28,6 @@ def population_best(items, knapsack_max_capacity, population):
 
 
 if __name__ == "__main__":
-
     items, knapsack_max_capacity = get_big()
     print(items)
 
@@ -45,21 +45,24 @@ if __name__ == "__main__":
 
     for _ in range(generations):
         population_history.append(population)
+
         # selection
-        selected_parents = roulette_wheel_selection(population, lambda ind: fitness(items, knapsack_max_capacity, ind),
-                                                    n_selection)
+        selected_parents = roulette_wheel_selection(
+            population,
+            lambda ind: fitness(items, knapsack_max_capacity, ind),
+            n_selection,
+        )
 
         # crossover
         offspring = single_point_crossover(selected_parents)
 
         # mutation
-        for i in range(len(offspring)):
-            if random.uniform(0, 1) < mutation_rate:
-                j = random.randint(0, len(offspring[i]) - 1)
-                offspring[i][j] = not offspring[i][j]
+        offspring = mutate(offspring)
 
         # elitism
-        elite_individual, elite_fitness = population_best(items, knapsack_max_capacity, population)
+        elite_individual, elite_fitness = population_best(
+            items, knapsack_max_capacity, population
+        )
         elite_offspring = [elite_individual] * n_elite
         offspring += elite_offspring
 
@@ -88,12 +91,14 @@ if __name__ == "__main__":
         plotted_individuals = min(len(population), top_best)
         x.extend([i] * plotted_individuals)
         population_fitnesses = [
-            fitness(items, knapsack_max_capacity, individual) for individual in population
+            fitness(items, knapsack_max_capacity, individual)
+            for individual in population
         ]
         population_fitnesses.sort(reverse=True)
         y.extend(population_fitnesses[:plotted_individuals])
     plt.scatter(x, y, marker=".")
     plt.plot(best_history, "r")
+    plt.scatter(100, best_fitness, marker="o", color='green')
     plt.xlabel("Generation")
     plt.ylabel("Fitness")
     plt.show()
