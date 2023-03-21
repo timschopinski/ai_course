@@ -1,8 +1,11 @@
 import random
 import numpy as np
+from typing import Callable, List
 
 
-def roulette_wheel_selection(population, fitness_fn, n_selection):
+def roulette_wheel_selection(
+    population: List[List[bool]], fitness_fn: Callable, n_selection: int
+) -> List[List[bool]]:
     fitnesses = [fitness_fn(individual) for individual in population]
     total_fitness = sum(fitnesses)
     probabilities = [fitness / total_fitness for fitness in fitnesses]
