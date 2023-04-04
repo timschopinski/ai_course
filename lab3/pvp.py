@@ -1,5 +1,5 @@
-from .exceptions import GameplayException
-from .connect4 import Connect4
+from lab3.exceptions import GameplayException
+from lab3.connect4 import Connect4
 
 connect4 = Connect4()
 while not connect4.game_over:
@@ -10,4 +10,5 @@ while not connect4.game_over:
     except (ValueError, GameplayException):
         print('invalid move')
 
-connect4.draw()
+if __name__ == "__main__":
+    connect4.draw()

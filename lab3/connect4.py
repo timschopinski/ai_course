@@ -1,4 +1,4 @@
-from .exceptions import GameplayException
+from lab3.exceptions import GameplayException
 
 
 class Connect4:
@@ -11,6 +11,14 @@ class Connect4:
         self.board = []
         for n_row in range(self.height):
             self.board.append(['_' for _ in range(self.width)])
+
+    def undo(self, column):
+        for i in range(self.height):
+            if self.board[i][column] != '_':
+                self.board[i][column] = '_'
+                self.who_moves = 'o' if self.who_moves == 'x' else 'x'
+                self.game_over = False
+                return
 
     def possible_drops(self):
         return [n_column for n_column in range(self.width) if self.board[0][n_column] == '_']

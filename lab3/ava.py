@@ -1,12 +1,13 @@
-from .exceptions import GameplayException
-from .connect4 import Connect4
-from .randomagent import RandomAgent
-from minmaxagent import MinMaxAgent
-from alphabetaagent import AlphaBetaAgent
+from lab3.exceptions import GameplayException
+from lab3.connect4 import Connect4
+from lab3.randomagent import RandomAgent
+from lab3.minmaxagent import MinMaxAgent
+from lab3.alphabetaagent import AlphaBetaAgent
+
 
 connect4 = Connect4(width=7, height=6)
-agent1 = RandomAgent('o')
-agent2 = AlphaBetaAgent('x')
+agent1 = MinMaxAgent('x')
+agent2 = AlphaBetaAgent('o')
 while not connect4.game_over:
     connect4.draw()
     try:
@@ -18,4 +19,6 @@ while not connect4.game_over:
     except (ValueError, GameplayException):
         print('invalid move')
 
-connect4.draw()
+
+if __name__ == "__main__":
+    connect4.draw()
