@@ -7,10 +7,9 @@ class RandomForest:
         self.forest = []
         self.params = defaultdict(lambda: None, params)
 
-
     def train(self, X, y):
         for _ in range(self.params["ntrees"]):
-            X_bagging, y_bagging = self.bagging(X,y)
+            X_bagging, y_bagging = self.bagging(X, y)
             tree = DecisionTree(self.params)
             tree.train(X_bagging, y_bagging)
             self.forest.append(tree)
@@ -29,6 +28,8 @@ class RandomForest:
 
     def bagging(self, X, y):
         X_selected, y_selected = None, None
-        # TODO implement bagging
-
+        n_samples = len(y)
+        idx = np.random.choice(n_samples, size=n_samples, replace=True)
+        X_selected = X[idx]
+        y_selected = y[idx]
         return X_selected, y_selected

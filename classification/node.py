@@ -12,12 +12,27 @@ class Node:
         self.node_prediction = None
 
     def gini_best_score(self, y, possible_splits):
-        best_gain = -np.inf
-        best_idx = 0
+        n = len(y)
+        if n == 0:
+            return None, None
+        best_idx, best_gini = None, 1.0
+        for split_idx in possible_splits:
+            if split_idx >= n:
+                break
+            left_y = y[:split_idx]
+            right_y = y[split_idx:]
+            gini = self.gini_impurity(left_y, right_y)
+            if gini < best_gini:
+                best_idx, best_gini = split_idx, gini
+        return best_idx, best_gini
 
-        # TODO find position of best data split
-
-        return best_idx, best_gain
+    def gini_impurity(self, left_y, right_y):
+        n = len(left_y) + len(right_y)
+        if n == 0:
+            return 1.0
+        gini_left = 1 - sum((np.sum(left_y == c) / len(left_y)) ** 2 for c in np.unique(left_y))
+        gini_right = 1 - sum((np.sum(right_y == c) / len(right_y)) ** 2 for c in np.unique(right_y))
+        return (len(left_y) / n) * gini_left + (len(right_y) / n) * gini_right
 
     def split_data(self, X, y, idx, val):
         left_mask = X[:, idx] < val
@@ -40,6 +55,8 @@ class Node:
             order = np.argsort(X[:, d])
             y_sorted = y[order]
             possible_splits = self.find_possible_splits(X[order, d])
+            if len(possible_splits) == 0:
+                continue
             idx, value = self.gini_best_score(y_sorted, possible_splits)
             if value > best_gain:
                 best_gain = value
@@ -51,6 +68,7 @@ class Node:
         best_value = np.mean(X[best_split[1], best_split[0]])
 
         return best_split[0], best_value
+
 
     def predict(self, x):
         if self.feature_idx is None:
