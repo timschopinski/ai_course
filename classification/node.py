@@ -12,27 +12,35 @@ class Node:
         self.node_prediction = None
 
     def gini_best_score(self, y, possible_splits):
-        n = len(y)
-        if n == 0:
-            return None, None
-        best_idx, best_gini = None, 1.0
-        for split_idx in possible_splits:
-            if split_idx >= n:
-                break
-            left_y = y[:split_idx]
-            right_y = y[split_idx:]
-            gini = self.gini_impurity(left_y, right_y)
-            if gini < best_gini:
-                best_idx, best_gini = split_idx, gini
-        return best_idx, best_gini
+        best_gain = -np.inf
+        best_idx = 0
 
-    def gini_impurity(self, left_y, right_y):
-        n = len(left_y) + len(right_y)
-        if n == 0:
-            return 1.0
-        gini_left = 1 - sum((np.sum(left_y == c) / len(left_y)) ** 2 for c in np.unique(left_y))
-        gini_right = 1 - sum((np.sum(right_y == c) / len(right_y)) ** 2 for c in np.unique(right_y))
-        return (len(left_y) / n) * gini_left + (len(right_y) / n) * gini_right
+        n = len(y)
+        for idx in possible_splits:
+            left_y, right_y = y[: idx + 1], y[idx + 1:]
+            left_positive = np.sum(left_y == 1)
+            left_negative = np.sum(left_y == 0)
+            right_positive = np.sum(right_y == 1)
+            right_negative = np.sum(right_y == 0)
+            curr_gain = (
+                1
+                - (left_y.size / n) * self.calculate_gini(left_positive, left_negative)
+                - (right_y.size / n)
+                * self.calculate_gini(right_positive, right_negative)
+            )
+            if curr_gain > best_gain:
+                best_gain = curr_gain
+                best_idx = idx
+
+        return best_idx, best_gain
+
+    def calculate_gini(self, positive, negative):
+        total = positive + negative
+        if total == 0:
+            return 0
+        p1 = positive / total
+        p2 = negative / total
+        return 1 - p1**2 - p2**2
 
     def split_data(self, X, y, idx, val):
         left_mask = X[:, idx] < val
@@ -45,18 +53,22 @@ class Node:
                 possible_split_points.append(idx)
         return possible_split_points
 
+    def get_feature_subset(self, features, feature_subset):
+        if feature_subset:
+            return np.random.choice(features, feature_subset, replace=False)
+
+        return range(features)
+
     def find_best_split(self, X, y, feature_subset):
         best_gain = -np.inf
         best_split = None
 
-        # TODO implement feature selection
-
-        for d in range(X.shape[1]):
+        features = X.shape[1]
+        feature_subset = self.get_feature_subset(features, feature_subset)
+        for d in feature_subset:
             order = np.argsort(X[:, d])
             y_sorted = y[order]
             possible_splits = self.find_possible_splits(X[order, d])
-            if len(possible_splits) == 0:
-                continue
             idx, value = self.gini_best_score(y_sorted, possible_splits)
             if value > best_gain:
                 best_gain = value
@@ -69,7 +81,6 @@ class Node:
 
         return best_split[0], best_value
 
-
     def predict(self, x):
         if self.feature_idx is None:
             return self.node_prediction
@@ -79,16 +90,19 @@ class Node:
             return self.right_child.predict(x)
 
     def train(self, X, y, params):
-
         self.node_prediction = np.mean(y)
         if X.shape[0] == 1 or self.node_prediction == 0 or self.node_prediction == 1:
             return True
 
-        self.feature_idx, self.feature_value = self.find_best_split(X, y, params["feature_subset"])
+        self.feature_idx, self.feature_value = self.find_best_split(
+            X, y, params["feature_subset"]
+        )
         if self.feature_idx is None:
             return True
 
-        (X_left, y_left), (X_right, y_right) = self.split_data(X, y, self.feature_idx, self.feature_value)
+        (X_left, y_left), (X_right, y_right) = self.split_data(
+            X, y, self.feature_idx, self.feature_value
+        )
 
         if X_left.shape[0] == 0 or X_right.shape[0] == 0:
             self.feature_idx = None

@@ -21,5 +21,5 @@ def main():
     rf.evaluate(*test_data)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
