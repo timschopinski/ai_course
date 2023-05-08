@@ -2,11 +2,11 @@ from collections import defaultdict
 import numpy as np
 from node import Node
 
+
 class DecisionTree:
     def __init__(self, params):
         self.root_node = Node()
         self.params = defaultdict(lambda: None, params)
-
 
     def train(self, X, y):
         self.root_node.train(X, y, self.params)
@@ -21,4 +21,3 @@ class DecisionTree:
         for x in X:
             prediction.append(self.root_node.predict(x))
         return prediction
-

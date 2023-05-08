@@ -2,6 +2,7 @@ from collections import defaultdict
 import numpy as np
 from decision_tree import DecisionTree
 
+
 class RandomForest:
     def __init__(self, params):
         self.forest = []
@@ -23,7 +24,9 @@ class RandomForest:
         tree_predictions = []
         for tree in self.forest:
             tree_predictions.append(tree.predict(X))
-        forest_predictions = list(map(lambda x: sum(x)/len(x), zip(*tree_predictions)))
+        forest_predictions = list(
+            map(lambda x: sum(x) / len(x), zip(*tree_predictions))
+        )
         return forest_predictions
 
     def bagging(self, X, y):
