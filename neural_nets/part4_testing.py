@@ -27,7 +27,7 @@ if __name__ == '__main__':
         standardizer = pickle.load(f)
     test_features, _ = standardization(test_features, standardizer=standardizer)
 
-    # TODO choose most promissing setup (according to val_loss) by specifying experiment_dir
+    # Choose most promising setup (according to val_loss) by specifying experiment_dir
     experiment_dir = 'exp_04'
 
     # load hyperparams

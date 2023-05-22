@@ -34,9 +34,20 @@ class FFN_Hyperparams:
 
 
 def build_model(hp: FFN_Hyperparams):
-
     model = tf.keras.Sequential()
 
-    # TODO
+    # Loop over hidden_dims list to add hidden layers
+    for i, dim in enumerate(hp.hidden_dims):
+        # Add hidden layer with specified dimension and activation function
+        model.add(layers.Dense(dim, activation=hp.activation_fcn, name=f'ukryta_{i + 1}'))
+
+    # Add output layer with num_outputs
+    model.add(layers.Dense(hp.num_outputs, name='wyjsciowa'))
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=hp.learning_rate)
+
+    model.compile(optimizer=optimizer, loss=tf.keras.losses.mse,
+                  metrics=[tf.keras.metrics.mean_absolute_error, 'mse'])
 
     return model
+

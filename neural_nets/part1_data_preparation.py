@@ -72,7 +72,6 @@ def load_data(path='data/train_data.npz'):
     return train_features, train_targets
 
 
-# TODO
 def standardization(features: np.ndarray, standardizer=None):
     """
     Normalization of data using sklearn standardizer.
