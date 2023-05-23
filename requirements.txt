@@ -4,3 +4,5 @@ tensorflow
 pandas
 scikit-learn
 seaborn
+torch
+matplotlib
