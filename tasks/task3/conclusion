@@ -1,0 +1,15 @@
+Po przeprowadzeniu porównania trzech metod optymalizacji - metody gradientowej, symulowanego wyżarzania i szukania przypadkowego - dla zdefiniowanej funkcji celu, można wyciągnąć następujące wnioski:
+
+Metoda gradientowa:
+Metoda ta jest skuteczna w znajdowaniu minimum lokalnego, zwłaszcza gdy funkcja celu jest dobrze zachowana i posiada wyraźny gradient.
+Jednakże, metoda ta może utknąć w minimum lokalnym, nie znajdując globalnego minimum, jeśli występują wiele minimów lokalnych.
+
+Symulowane wyżarzanie:
+Ta metoda wykazuje lepsze zdolności do unikania minimów lokalnych w porównaniu z metodą gradientową.
+Poprzez wprowadzenie losowych perturbacji i akceptowanie niekorzystnych ruchów, symulowane wyżarzanie ma większe prawdopodobieństwo znalezienia globalnego minimum.
+Jest to szczególnie przydatne w przypadku funkcji celu, które mają wiele minimów lokalnych.
+
+Szukanie przypadkowe:
+ Ta metoda jest najmniej efektywna w znalezieniu minimum.
+ Polega na losowym próbowaniu różnych punktów w przestrzeni poszukiwań.
+ Szukanie przypadkowe może być przydatne tylko w przypadku bardzo prostych problemów optymalizacji lub jako metoda porównawcza dla innych algorytmów.

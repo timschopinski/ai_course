@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy import ndarray
 from data import get_data, inspect_data, split_data
-from lab1.closed_form_solution import get_closed_form_solution
-from lab1.gradient import get_gradient_descent_values
-from lab1.mse import calculate_mse, calculate_mse_using_loop
+from linear_regression.closed_form_solution import get_closed_form_solution
+from linear_regression.gradient import get_gradient_descent_values
+from linear_regression.mse import calculate_mse, calculate_mse_using_loop
 
 data = get_data()
 inspect_data(data)
