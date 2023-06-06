@@ -42,15 +42,17 @@ def zad1_single_neuron(student_id):
             :param x_data: wejście neuronu: np.array o rozmiarze [n_samples, n_in]
             :return: wyjście neuronu: np.array o rozmiarze [n_samples, 1]
             """
-            logits = np.dot(x_data, self.W) + self.b
-            return self.f_act(logits)
+            result = np.dot(x_data, self.W) + self.b
+            return self.f_act(result)
 
     # neuron zainicjowany losowymi wagami
     model = SingleNeuron(n_in=n_features, f_act=hardlim)
 
-    # TODO: ustawienie właściwych wag (0.5 point)
-    model.W[:, 0] = [0.5, 0.5]
-    model.b[:] = [-0.7]
+    # TODO: ustawienie właściwych wag (0.5 point)\
+    w1, w2 = -0.8, 0.2
+    b1 = -0.07
+    model.W[:, 0] = [w1, w2]
+    model.b[:] = [b1]
 
     # działanie i ocena modelu
     y_pred = model.forward(x)
@@ -86,8 +88,8 @@ def zad2_two_layer_net(student_id):
     # warstwy można składać w większy model
     class SimpleTwoLayerNetwork:
         def __init__(self, n_in, n_hidden, n_out):
-            self.hidden_layer = DenseLayer(n_in, n_hidden, relu)
-            self.output_layer = DenseLayer(n_hidden, n_out, sigmoid)
+            self.hidden_layer = DenseLayer(n_in, n_hidden, hardlim)
+            self.output_layer = DenseLayer(n_hidden, n_out, hardlim)
 
         def forward(self, x_data):
             hidden_output = self.hidden_layer.forward(x_data)
@@ -98,11 +100,11 @@ def zad2_two_layer_net(student_id):
     model = SimpleTwoLayerNetwork(n_in=n_features, n_hidden=2, n_out=1)
 
     # TODO: ustawienie właściwych wag
-    model.hidden_layer.W[:, 0] = [1.0, -1.0]      # wagi neuronu h1
-    model.hidden_layer.W[:, 1] = [-1.0, 1.0]      # wagi neuronu h2
-    model.hidden_layer.b[:] = [0.0, 0.0]         # biasy neuronów h1 i h2
+    model.hidden_layer.W[:, 0] = [1.0, 0.0]      # wagi neuronu h1
+    model.hidden_layer.W[:, 1] = [-1.0, 0.0]      # wagi neuronu h2
+    model.hidden_layer.b[:] = [-0.1, 1.0]         # biasy neuronów h1 i h2
     model.output_layer.W[:, 0] = [1.0, 1.0]      # wagi neuronu wyjściowego
-    model.output_layer.b[:] = [0.0]         # bias neuronu wyjściowego
+    model.output_layer.b[:] = [-1.5]         # bias neuronu wyjściowego
 
     # działanie i ocena modelu
     y_pred = model.forward(x)
@@ -116,5 +118,5 @@ if __name__ == '__main__':
 
     student_id = 188749         # Twój numer indeksu, np. 102247
 
-    zad1_single_neuron(student_id)
-    # zad2_two_layer_net(student_id)
+    # zad1_single_neuron(student_id)
+    zad2_two_layer_net(student_id)
